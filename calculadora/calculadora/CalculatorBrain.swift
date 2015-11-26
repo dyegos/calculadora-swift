@@ -8,11 +8,12 @@
 
 import Foundation
 
-class CalculatorBrain
+class CalculatorBrain: Printable
 {
     private enum OP: Printable
     {
         case Operand(Double)
+        case VariableOperand(String)
         case UnaryOperand(String, Double -> Double)
         case BinaryOperand(String, (Double, Double) -> Double)
         case UnarySymbolValue(String, Double)
@@ -31,13 +32,49 @@ class CalculatorBrain
                     return symbol
                 case .UnarySymbolValue(let symbol, _):
                     return symbol
+                case .VariableOperand(let symbol):
+                    return symbol
                 }
             }
         }
     }
     
+    var description: String
+    {
+        var ops = opStack
+        var finalString = ""
+        var lastItem = ""
+        
+        for op in ops
+        {
+            println(op.description)
+            
+            switch op
+            {
+            case .UnarySymbolValue(let symbol, let value):
+                finalString += "->>>>> \(symbol)(\(value))"
+                continue
+            case .VariableOperand(let symbol):
+                finalString += "->>>> \(symbol)"
+                continue
+            case .Operand(let value):
+                finalString += "->>> \(value)"
+                continue
+            case .UnaryOperand(let symbol, let value):
+                finalString += "->> \(symbol)"
+                continue
+            case .BinaryOperand(let symbol, let value):
+                finalString += "-> \(symbol)"
+                continue
+            }
+        }
+        
+        return finalString
+    }
+
     private var opStack = [OP]()
     private var knownOPs = [String : OP]()
+    var variblesValues = [String : Double]()
     
     init()
     {
@@ -84,6 +121,8 @@ class CalculatorBrain
                 }
             case .UnarySymbolValue(_, let value):
                 return (value, remainingOPs)
+            case .VariableOperand(let symbol):
+                return (variblesValues[symbol], remainingOPs)
             }
         }
         
@@ -93,7 +132,7 @@ class CalculatorBrain
     func evaluate() -> Double?
     {
         let (result, remainder) = evaluate(opStack)
-        println("\(opStack) = \(result) with \(remainder) left over")
+        //println("\(opStack) = \(result) with \(remainder) left over")
         
         return result
     }
@@ -101,6 +140,12 @@ class CalculatorBrain
     func pushOperand(operand: Double) -> Double?
     {
         opStack.append(OP.Operand(operand))
+        return evaluate()
+    }
+    
+    func pushOperand(operand: String) -> Double?
+    {
+        opStack.append(OP.VariableOperand(operand))
         return evaluate()
     }
     
@@ -117,5 +162,10 @@ class CalculatorBrain
     func clearStack()
     {
         opStack.removeAll(keepCapacity: false)
+    }
+    
+    func getCalcHistory() -> String
+    {
+        return "\(opStack)"
     }
 }

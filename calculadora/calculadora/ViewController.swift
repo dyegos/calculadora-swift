@@ -17,7 +17,7 @@ class ViewController: UIViewController
     //Internal Properties
     var userIsInTheMiddleOfTyping = false
     var calcBrain = CalculatorBrain()
-    var displayValue: Double
+    var displayValue: Double?
     {
         get
         {
@@ -25,7 +25,7 @@ class ViewController: UIViewController
         }
         set
         {
-            display.text = "\(newValue)"
+            display.text = "\(newValue ?? 0)"
             userIsInTheMiddleOfTyping = false
         }
     }
@@ -65,12 +65,27 @@ class ViewController: UIViewController
         }
     }
     
+    @IBAction func saveVariable(sender: UIButton)
+    {
+        let variable = sender.currentTitle!
+        
+        if userIsInTheMiddleOfTyping
+        {
+            calcBrain.variblesValues[variable] = displayValue
+        }
+        
+        if let result = calcBrain.pushOperand(variable)
+        {
+            displayValue = result
+            history.text = calcBrain.getCalcHistory()
+        }
+    }
+    
     @IBAction func attachPoint(sender: UIButton)
     {
         let point = sender.currentTitle!
-        let range = display.text!.rangeOfString(point, options: NSStringCompareOptions.LiteralSearch, range: nil, locale: nil)
-        
-        if range == nil
+
+        if findCharacterInsideString(display.text!, withString: point)
         {
             display.text = display.text! + point
             userIsInTheMiddleOfTyping = true
@@ -79,7 +94,7 @@ class ViewController: UIViewController
     
     @IBAction func clearDisplay()
     {
-        display.text = "0"
+        displayValue = nil
         history.text = "0"
         calcBrain.clearStack()
         userIsInTheMiddleOfTyping = false
@@ -89,14 +104,51 @@ class ViewController: UIViewController
     {
         userIsInTheMiddleOfTyping = false
         
-        if let result = calcBrain.pushOperand(displayValue)
+        if let result = calcBrain.pushOperand(displayValue!)
         {
             displayValue = result
+            history.text = calcBrain.getCalcHistory()
         }
         else
         {
             displayValue = 0
         }
+        
+        println("Brain Description \(calcBrain.description)")
+    }
+    
+    @IBAction func deleteCharacter()
+    {
+        if !userIsInTheMiddleOfTyping { return }
+        
+        let char = display.text!
+        if countElements(char) > 1
+        {
+            display.text! = dropLast(char)
+        }
+        else if countElements(char) == 1
+        {
+            displayValue = nil
+            userIsInTheMiddleOfTyping = false
+        }
+    }
+    
+    @IBAction func changeSignal()
+    {
+        if !userIsInTheMiddleOfTyping { return }
+        
+        if !findCharacterInsideString(display.text!, withString: "-")
+        {
+            display.text! = dropFirst(display.text!)
+        }
+        else
+        {
+            display.text! = "−" + display.text!
+        }
+    }
+    
+    func findCharacterInsideString(string: String, withString wstring: String) -> Bool
+    {
+        return string.rangeOfString(wstring, options: NSStringCompareOptions.LiteralSearch, range: nil, locale: nil) == nil ? true : false
     }
 }
-
