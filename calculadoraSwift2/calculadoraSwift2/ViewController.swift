@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     //UI Properties
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var history: UILabel!
@@ -18,10 +18,10 @@ class ViewController: UIViewController {
     var userIsInTheMiddleOfTyping = false
     var calcBrain = CalculatorBrain()
     var displayValue: Double?
-    {
+        {
         get
         {
-            return Double(display.text!)
+            return NSNumberFormatter().numberFromString(display.text!)?.doubleValue
         }
         set
         {
@@ -47,8 +47,18 @@ class ViewController: UIViewController {
     
     @IBAction func saveVariable(sender: UIButton)
     {
-        calcBrain.variblesValues[sender.currentTitle!] = displayValue
-        displayValue = calcBrain.pushOperand(sender.currentTitle!)
+        let variable = sender.currentTitle!
+        
+        if userIsInTheMiddleOfTyping
+        {
+            calcBrain.variblesValues[variable] = displayValue
+        }
+        
+        if let result = calcBrain.pushOperand(variable)
+        {
+            displayValue = result
+            history.text = calcBrain.getCalcHistory()
+        }
     }
     
     @IBAction func doOperation(sender: UIButton)
@@ -69,6 +79,8 @@ class ViewController: UIViewController {
                 displayValue = 0
             }
         }
+        
+        history.text = calcBrain.getCalcHistory()
     }
     
     @IBAction func attachPoint(sender: UIButton)
@@ -119,6 +131,23 @@ class ViewController: UIViewController {
         {
             displayValue = nil
             userIsInTheMiddleOfTyping = false
+        }
+    }
+    
+    @IBAction func changeSignal()
+    {
+        if !userIsInTheMiddleOfTyping { return }
+        
+        if display.text!.rangeOfString("-") != nil
+        {
+            var chars = display.text!.characters
+            chars.removeFirst()
+            display.text!.removeAll()
+            display.text!.appendContentsOf(chars)
+        }
+        else
+        {
+            display.text! = "−" + display.text!
         }
     }
 }
