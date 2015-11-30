@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CalculatorBrain: Printable
+class CalculatorBrain
 {
     private enum OP: Printable
     {
@@ -39,39 +39,6 @@ class CalculatorBrain: Printable
         }
     }
     
-    var description: String
-    {
-        var ops = opStack
-        var finalString = ""
-        var lastItem = ""
-        
-        for op in ops
-        {
-            println(op.description)
-            
-            switch op
-            {
-            case .UnarySymbolValue(let symbol, let value):
-                finalString += "->>>>> \(symbol)(\(value))"
-                continue
-            case .VariableOperand(let symbol):
-                finalString += "->>>> \(symbol)"
-                continue
-            case .Operand(let value):
-                finalString += "->>> \(value)"
-                continue
-            case .UnaryOperand(let symbol, let value):
-                finalString += "->> \(symbol)"
-                continue
-            case .BinaryOperand(let symbol, let value):
-                finalString += "-> \(symbol)"
-                continue
-            }
-        }
-        
-        return finalString
-    }
-
     private var opStack = [OP]()
     private var knownOPs = [String : OP]()
     var variblesValues = [String : Double]()

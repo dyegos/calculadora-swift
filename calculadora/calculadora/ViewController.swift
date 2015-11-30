@@ -113,8 +113,6 @@ class ViewController: UIViewController
         {
             displayValue = 0
         }
-        
-        println("Brain Description \(calcBrain.description)")
     }
     
     @IBAction func deleteCharacter()
@@ -149,6 +147,7 @@ class ViewController: UIViewController
     
     func findCharacterInsideString(string: String, withString wstring: String) -> Bool
     {
+        println("encontrou caracter: \(string.rangeOfString(wstring, options: NSStringCompareOptions.LiteralSearch, range: nil, locale: nil))")
         return string.rangeOfString(wstring, options: NSStringCompareOptions.LiteralSearch, range: nil, locale: nil) == nil ? true : false
     }
 }
