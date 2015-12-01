@@ -230,22 +230,15 @@
                                     <action selector="doOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SSv-Fv-2YN"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o1q-u5-COo">
-                                <rect key="frame" x="359" y="110" width="213" height="40"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                <state key="normal" title="⌫">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="deleteCharacter" destination="BYZ-38-t0r" eventType="touchUpInside" id="lQ7-eD-W7c"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aCS-im-mBr">
                                 <rect key="frame" x="28" y="110" width="102" height="40"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="±">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="changeSignal" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZGR-Wa-yQ0"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lWd-Qz-Bob">
                                 <rect key="frame" x="138" y="110" width="213" height="40"/>
@@ -285,6 +278,16 @@
                                 </state>
                                 <connections>
                                     <action selector="saveVariable:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5em-1F-6sR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o1q-u5-COo">
+                                <rect key="frame" x="359" y="110" width="213" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="⌫">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteCharacter" destination="BYZ-38-t0r" eventType="touchUpInside" id="lQ7-eD-W7c"/>
                                 </connections>
                             </button>
                         </subviews>
