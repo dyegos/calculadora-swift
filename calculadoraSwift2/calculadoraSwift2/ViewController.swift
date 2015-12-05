@@ -138,17 +138,8 @@ class ViewController: UIViewController {
     {
         if !userIsInTheMiddleOfTyping { return }
         
-        if display.text!.rangeOfString("-") != nil
-        {
-            var chars = display.text!.characters
-            chars.removeFirst()
-            display.text!.removeAll()
-            display.text!.appendContentsOf(chars)
-        }
-        else
-        {
-            display.text! = "−" + display.text!
-        }
+        displayValue = displayValue! * -1
+        userIsInTheMiddleOfTyping = true
     }
 }
 
