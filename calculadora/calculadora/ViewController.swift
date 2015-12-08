@@ -135,14 +135,8 @@ class ViewController: UIViewController
     {
         if !userIsInTheMiddleOfTyping { return }
         
-        if !findCharacterInsideString(display.text!, withString: "-")
-        {
-            display.text! = dropFirst(display.text!)
-        }
-        else
-        {
-            display.text! = "−" + display.text!
-        }
+        displayValue = displayValue! * -1
+        userIsInTheMiddleOfTyping = true
     }
     
     func findCharacterInsideString(string: String, withString wstring: String) -> Bool

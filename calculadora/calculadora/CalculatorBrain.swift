@@ -43,6 +43,32 @@ class CalculatorBrain
     private var knownOPs = [String : OP]()
     var variblesValues = [String : Double]()
     
+    typealias PropertyList = AnyObject
+    var program: PropertyList
+    {
+        get { return opStack.map { $0.description } }
+        set
+        {
+            if let opSymbols = newValue as? Array<String>
+            {
+                var newOpStack = [OP]()
+                
+                for opSymbol in opSymbols
+                {
+                    if let op = knownOPs[opSymbol]
+                    {
+                        newOpStack.append(op)
+                    }
+                    else
+                    {
+                        newOpStack.append(.Operand((opSymbol as NSString).doubleValue))
+                    }
+                }
+                opStack = newOpStack
+            }
+        }
+    }
+    
     init()
     {
         func learnOperation(op: OP)
